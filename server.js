@@ -9,6 +9,11 @@ const user = [
 const server = http.createServer((req, res) => {
     const { method, url } = req;
     let body = [];
+    
+            res.writeHead(status, {
+                "Content-Type": "application/json",
+                "X-Powered-By": "Node.js",
+            });
 
     req
         .on("data", (chunk) => {
@@ -43,10 +48,6 @@ const server = http.createServer((req, res) => {
                 }
             }
 
-            res.writeHead(status, {
-                "Content-Type": "application/json",
-                "X-Powered-By": "Node.js",
-            });
 
             res.end(JSON.stringify(response));
         });
