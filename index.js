@@ -15,13 +15,13 @@ app.use((req, res, next) => {
     next();
 });
 
-// mongoInit()
-//     .then(() => {
-//         console.log('Successfully Connect to Database')
-//     })
-//     .catch((err) => {
-//         console.error('Failed to connect to the database:', err);;
-//     });
+mongoInit()
+    .then(() => {
+        console.log('Successfully Connect to Database')
+    })
+    .catch((err) => {
+        console.error('Failed to connect to the database:', err);;
+    });
 
 app.use(router);
 
