@@ -1,26 +1,17 @@
-let user = [
-  {
-    id: 1,
-    name: 'Mahesa',
-    kelas: 'XII RPL 3'
-  },
-  {
-    id: 2,
-    name: 'Bagus',
-    kelas: 'XII RPL 3'
-  },
-]
+const User = require('../model/user.schema')
 
-const getUser = (req, res) => {
-  if (user.length > 0) {
-    res.status(200).json({
-      status: true,
-      data: user,
-      method: req.method,
-      url: req.url
-    })
-
-  } else {
+const getUser = async (req, res) => {
+  try {
+    const users = await User.find()
+    if (users) {
+      res.status(200).json({
+        status: true,
+        data: users,
+        method: req.method,
+        url: req.url
+      })
+    }
+  } catch (err) {
     res.status(400).json({
       status: false,
       message: 'data masih kosong'
