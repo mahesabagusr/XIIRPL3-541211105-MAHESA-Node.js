@@ -60,25 +60,30 @@ const updateUser = async (req, res) => {
 
     })
   } catch (err) {
-    res.status(200).json({
+    res.status(400).json({
       status: false,
-      message: 'Data Gagal Di Update'
+      message: `Error: ${err.message}`
     })
   }
 };
 
-const deleteUser = (req, res) => {
-  const { id } = req.params
+const deleteUser = async (req, res) => {
+  try {
+    const users = await User.findByIdAndDelete(req.params.id)
 
-  const users = user.filter(user => user.id != id)
-
-  res.status(200).json({
-    status: true,
-    data: users,
-    method: req.method,
-    url: req.url
-  })
-
+    res.status(200).json({
+      status: true,
+      data: users,
+      method: req.method,
+      url: req.url,
+      message: `Data berhasil Dihapus`
+    })
+  } catch (err) {
+    res.status(400).json({
+      status: false,
+      message: `Error: ${err.message}`
+    })
+  }
 }
 
 module.exports = { getUser, addUser, updateUser, deleteUser }
