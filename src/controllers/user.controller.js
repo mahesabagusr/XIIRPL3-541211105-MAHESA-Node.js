@@ -21,6 +21,27 @@ const getUser = async (req, res) => {
   }
 }
 
+const getUserById = async (req, res) => {
+  try {
+
+    const users = await User.findById(req.params.id)
+
+    res.status(200).json({
+      status: true,
+      data: users,
+      method: req.method,
+      url: req.url,
+      message: 'Data berhasil Di Cari'
+
+    })
+  } catch (err) {
+    res.status(400).json({
+      status: false,
+      message: `Error: ${err.message}`
+    })
+  }
+};
+
 const addUser = async (req, res) => {
   try {
     const { name, email } = req.body
@@ -86,4 +107,4 @@ const deleteUser = async (req, res) => {
   }
 }
 
-module.exports = { getUser, addUser, updateUser, deleteUser }
+module.exports = { getUser, addUser, updateUser, deleteUser, getUserById }
