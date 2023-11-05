@@ -3,6 +3,7 @@ const User = require('../model/user.schema')
 const getUser = async (req, res) => {
   try {
     const users = await User.find()
+
     if (users) {
       res.status(200).json({
         status: true,
@@ -11,6 +12,7 @@ const getUser = async (req, res) => {
         url: req.url
       })
     }
+
   } catch (err) {
     res.status(400).json({
       status: false,
@@ -18,28 +20,34 @@ const getUser = async (req, res) => {
     });
   }
 }
-const addUser = (req, res) => {
-  const { id, name, kelas } = req.body
 
-  if (id == undefined || name == undefined || kelas == undefined) {
-    res.status(400).json({
-      status: false,
-      message: 'Data Kosong'
-    })
+const addUser = async (req, res) => {
+  try {
+    const { name, email } = req.body
+    const validation = await User.save(req.body)
+
+    if (!validation) {
+      res.status(400).json({
+        status: false,
+        message: 'Data masih '
+      })
+    }
+    const users = await User.create(req.body)
 
     res.status(200).json({
       status: true,
-      data: user,
+      data: users,
       method: req.method,
-      url: req.url
+      url: req.url,
+      message: 'Data berhasil ditambahkan'
+    })
+
+  } catch (err) {
+    res.status(400).json({
+      status: false,
+      message: 'Data masih Kosong'
     })
   }
-
-  user.push({ id, name, kelas })
-
-  res.status(200).json({
-    user
-  })
 };
 
 const updateUser = (req, res) => {

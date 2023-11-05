@@ -1,6 +1,6 @@
 const express = require('express');
 const router = require('./src/router/router');
-const { mongoInit } = require('./src/config/db');
+const mongoDB = require('./src/config/db');
 require('dotenv').config({
     path: '.env'
 });
@@ -15,7 +15,7 @@ app.use((req, res, next) => {
     next();
 });
 
-mongoInit()
+mongoDB()
     .then(() => {
         console.log('Successfully Connect to Database')
     })
